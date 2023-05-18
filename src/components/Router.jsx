@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { match } from "path-to-regexp";
 
 //* page *//
 import { Page404 } from "../pages/404";
@@ -26,9 +27,21 @@ export const Router = ({
     };
   }, []);
 
-  const Page =
-    routes.find(({ path }) => path === currentPath)?.Component ||
-    DefaultComponent;
+  let routeParams = {};
 
-  return <Page />;
+  const Page =
+    routes.find(({ path }) => {
+      if (path === currentPath) return true;
+
+      const matcherUrl = match(path, { decode: decodeURIComponent });
+      const matched = matcherUrl(currentPath);
+
+      if (!matched) return false;
+
+      // guardar los parametros de la url que eran dinamicos
+      routeParams = matched.params;
+      return true;
+    })?.Component || DefaultComponent;
+
+  return <Page params={routeParams} />;
 };
