@@ -1,3 +1,4 @@
+//* consts *//
 import { EVENTS } from "../consts";
 
 export function navigate(href) {
