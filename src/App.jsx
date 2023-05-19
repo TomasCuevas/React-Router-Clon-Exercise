@@ -10,7 +10,10 @@ const Page404 = lazy(() => import("./pages/404"));
 import { Route } from "./components/Route";
 import { Router } from "./components/Router";
 
-const appRoutes = [{ path: "/search/:query", component: LazySearchPage }];
+const appRoutes = [
+  { path: "/:lang/about", component: LazyAboutPage },
+  { path: "/search/:query", component: LazySearchPage },
+];
 
 export const App = () => {
   return (
