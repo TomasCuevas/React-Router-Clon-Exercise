@@ -1,22 +1,26 @@
+import { Suspense, lazy } from "react";
+
 //* pages *//
-import { HomePage } from "./pages/Home";
-import { AboutPage } from "./pages/About";
-import { Page404 } from "./pages/404";
+const LazyAboutPage = lazy(() => import("./pages/About"));
+const LazySearchPage = lazy(() => import("./pages/Search"));
+const LazyHomePage = lazy(() => import("./pages/Home"));
+const Page404 = lazy(() => import("./pages/404"));
 
 //* component *//
 import { Route } from "./components/Route";
 import { Router } from "./components/Router";
-import { SearchPage } from "./pages/SearchPage";
 
-const appRoutes = [{ path: "/search/:query", component: SearchPage }];
+const appRoutes = [{ path: "/search/:query", component: LazySearchPage }];
 
 export const App = () => {
   return (
     <main>
-      <Router routes={appRoutes} defaultComponent={Page404}>
-        <Route path="/" component={HomePage} />
-        <Route path="/about" component={AboutPage} />
-      </Router>
+      <Suspense fallback={<div>loading...</div>}>
+        <Router routes={appRoutes} defaultComponent={Page404}>
+          <Route path="/" component={LazyHomePage} />
+          <Route path="/about" component={LazyAboutPage} />
+        </Router>
+      </Suspense>
     </main>
   );
 };

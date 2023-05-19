@@ -1,7 +1,7 @@
 //* component *//
 import { Link } from "../components/Link";
 
-export const AboutPage = () => {
+const AboutPage = () => {
   return (
     <>
       <h3></h3>
@@ -18,3 +18,5 @@ export const AboutPage = () => {
     </>
   );
 };
+
+export default AboutPage;

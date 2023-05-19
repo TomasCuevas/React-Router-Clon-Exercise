@@ -1,7 +1,7 @@
 //* component *//
 import { Link } from "../components/Link";
 
-export const Page404 = () => {
+const Page404 = () => {
   return (
     <>
       <div>
@@ -17,3 +17,5 @@ export const Page404 = () => {
     </>
   );
 };
+
+export default Page404;

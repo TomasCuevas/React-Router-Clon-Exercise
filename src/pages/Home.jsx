@@ -1,7 +1,7 @@
 //* component *//
 import { Link } from "../components/Link";
 
-export const HomePage = () => {
+const HomePage = () => {
   return (
     <>
       <h1>Home</h1>
@@ -10,3 +10,5 @@ export const HomePage = () => {
     </>
   );
 };
+
+export default HomePage;
