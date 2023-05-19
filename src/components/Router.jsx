@@ -1,15 +1,13 @@
-import { useEffect, useState } from "react";
+import { Children, useEffect, useState } from "react";
 import { match } from "path-to-regexp";
-
-//* page *//
-import { Page404 } from "../pages/404";
 
 //* consts *//
 import { EVENTS } from "../consts";
 
 export const Router = ({
+  children,
   routes = [],
-  defaultComponent: DefaultComponent = () => <Page404 />,
+  defaultComponent: DefaultComponent = () => <></>,
 }) => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
@@ -27,10 +25,21 @@ export const Router = ({
     };
   }, []);
 
-  let routeParams = {};
+  //? obtenemos las propiedades de los children
+  const routesFromChildren = Children.map(children, ({ props, type }) => {
+    const { name } = type;
+    const isRoute = name === "Route";
 
+    return isRoute ? props : null;
+  }).filter(Boolean);
+
+  //? concatenamos las rutas por argumento y por children
+  const routesToUse = routes.concat(routesFromChildren);
+
+  //? iteramos sobre todas las rutas y las guardamos en un objeto
+  let routeParams = {};
   const Page =
-    routes.find(({ path }) => {
+    routesToUse.find(({ path }) => {
       if (path === currentPath) return true;
 
       const matcherUrl = match(path, { decode: decodeURIComponent });
@@ -41,7 +50,7 @@ export const Router = ({
       // guardar los parametros de la url que eran dinamicos
       routeParams = matched.params;
       return true;
-    })?.Component || DefaultComponent;
+    })?.component || DefaultComponent;
 
   return <Page params={routeParams} />;
 };
