@@ -1,19 +1,22 @@
 import { Children, useEffect, useState } from "react";
 import { match } from "path-to-regexp";
 
+//* utils *//
+import { getCurrentPath } from "../../utils";
+
 //* consts *//
-import { EVENTS } from "../consts";
+import { EVENTS } from "../../consts";
 
 export const Router = ({
   children,
   routes = [],
   defaultComponent: DefaultComponent = () => <></>,
 }) => {
-  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const [currentPath, setCurrentPath] = useState(getCurrentPath());
 
   useEffect(() => {
     const onLocationChange = () => {
-      setCurrentPath(window.location.pathname);
+      setCurrentPath(getCurrentPath());
     };
 
     window.addEventListener(EVENTS.PUSHSTATE, onLocationChange);
@@ -37,6 +40,7 @@ export const Router = ({
 
   //? concatenamos las rutas por argumento y por children
   const routesToUse = routes.concat(routesFromChildren).filter(Boolean);
+  console.log(routesToUse);
 
   //? iteramos sobre todas las rutas y las guardamos en un objeto
   const Page =

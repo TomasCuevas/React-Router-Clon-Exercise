@@ -7,8 +7,7 @@ const LazyHomePage = lazy(() => import("./pages/Home"));
 const Page404 = lazy(() => import("./pages/404"));
 
 //* component *//
-import { Route } from "./components/Route";
-import { Router } from "./components/Router";
+import { Router, Route } from "./components";
 
 const appRoutes = [
   { path: "/:lang/about", component: LazyAboutPage },

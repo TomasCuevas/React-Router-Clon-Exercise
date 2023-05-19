@@ -1,5 +1,5 @@
 //* component *//
-import { Link } from "../components/Link";
+import { Link } from "../components";
 
 const Page404 = () => {
   return (
